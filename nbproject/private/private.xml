@@ -5,19 +5,15 @@
         <group>
             <file>file:/home/jvm/NetBeansProjects/myblog/web/WEB-INF/views/article.jsp</file>
             <file>file:/home/jvm/NetBeansProjects/myblog/src/java/entity/Articles.java</file>
+            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/UsersManager.java</file>
+            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/ContactsFacade.java</file>
             <file>file:/home/jvm/NetBeansProjects/myblog/web/WEB-INF/views/registration.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/web/WEB-INF/web.xml</file>
+            <file>file:/home/jvm/NetBeansProjects/myblog/web/css/style.css</file>
+            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/entity/Contacts.java</file>
             <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/AbstractFacade.java</file>
             <file>file:/home/jvm/NetBeansProjects/myblog/src/java/controller/web_controller.java</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/src/conf/persistence.xml</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/UsersFacade.java</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/web/WEB-INF/jspf/footer.jspf</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/web/WEB-INF/jspf/header.jspf</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/web/css/style.css</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/GroupuserFacade.java</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/web/index.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/MessagesFacade.java</file>
             <file>file:/home/jvm/NetBeansProjects/myblog/src/java/session/ArticlesFacade.java</file>
+            <file>file:/home/jvm/NetBeansProjects/myblog/src/java/filter/web_filter.java</file>
         </group>
     </open-files>
 </project-private>

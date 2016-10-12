@@ -8,6 +8,7 @@ package controller;
 import entity.Articles;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,22 +16,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.ArticlesFacade;
+import session.UsersManager;
 
 /**
  *
  * @author jvm
  */
-@WebServlet(name = "web_controller", loadOnStartup=1, urlPatterns = {"/article", "/registration"})
+@WebServlet(name = "web_controller", loadOnStartup = 1, urlPatterns = {"/article", "/registration"})
 public class web_controller extends HttpServlet {
+
     @EJB
     ArticlesFacade articlesFacade;
+    @EJB
+    UsersManager userManager;
 
     @Override
     public void init() throws ServletException {
         getServletContext().setAttribute("articles", articlesFacade.findAll());
     }
-    
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,21 +50,47 @@ public class web_controller extends HttpServlet {
         String userPath = request.getServletPath();
         if ("/article".equals(userPath)) {
             // TODO: обработка запроса статьи
-            String id=null;
+            String id = null;
             Enumeration<String> params = request.getParameterNames();
-            while(params.hasMoreElements()){
+            while (params.hasMoreElements()) {
                 String param = params.nextElement();
-                id = "id".equals(param)?request.getParameter(param):id;
+                id = "id".equals(param) ? request.getParameter(param) : id;
             }
             try {
                 Articles article = articlesFacade.find(Integer.parseInt(id));
                 request.setAttribute("article", article);
             } catch (NumberFormatException e) {
                 System.out.println("Произошла ошибка при выборе просмотка статьи");
-                
+
             }
         } else if ("/registration".equals(userPath)) {
             //TODO: обработка запроса регистрации
+            String login = null, pass = null, pass2 = null;
+            HashMap<String, String[]> contacts = new HashMap<>();
+            Enumeration<String> parameters = request.getParameterNames();
+            while (parameters.hasMoreElements()) {
+                String parameter = parameters.nextElement();
+                switch (parameter) {
+                    case "login":
+                        login = request.getParameter(parameter);
+                        break;
+                    case "password":
+                        pass = request.getParameter("password");
+                        break;
+                    case "password2":
+                        pass2 = request.getParameter("password2");
+                        break;
+                    default:
+                        contacts.put(parameter, request.getParameterValues(parameter));
+                        break;
+                }
+            }
+            Integer codeOperation = userManager.addUser(login, pass, pass2, contacts);
+            if (codeOperation != 0) {
+                request.setAttribute("notif", "Код завершения операции: " + codeOperation);
+            } else {
+                request.setAttribute("notif", "Пользователь " + login + " успешно создан!");
+            }
         }
 
         request.getRequestDispatcher("/WEB-INF/views" + userPath + ".jsp").forward(request, response);

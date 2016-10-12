@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByPass", query = "SELECT u FROM Users u WHERE u.pass = :pass")})
 public class Users implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "login")
+    private Collection<Contacts> contactsCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -120,6 +123,15 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "entity.Users[ login=" + login + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Contacts> getContactsCollection() {
+        return contactsCollection;
+    }
+
+    public void setContactsCollection(Collection<Contacts> contactsCollection) {
+        this.contactsCollection = contactsCollection;
     }
     
 }
