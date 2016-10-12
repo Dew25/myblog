@@ -7,10 +7,8 @@
                     <li><a href="#">Тема 2</a></li>
                     <li><a href="#">Тема 3</a></li>
                     <li><a href="#">Тема 3</a></li>
-                    
                 </ul>
             </aside>
-             ${param.name}
             <section>
                 <article>
                     <h1>${article.title}</h1>
