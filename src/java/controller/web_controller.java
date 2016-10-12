@@ -56,7 +56,7 @@ public class web_controller extends HttpServlet {
                 Articles article = articlesFacade.find(Integer.parseInt(id));
                 request.setAttribute("article", article);
             } catch (NumberFormatException e) {
-                System.out.println("Произошла ошибка");
+                System.out.println("Произошла ошибка при выборе просмотка статьи");
                 
             }
         } else if ("/registration".equals(userPath)) {

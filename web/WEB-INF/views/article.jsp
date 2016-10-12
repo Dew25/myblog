@@ -10,6 +10,7 @@
                     
                 </ul>
             </aside>
+             ${param.name}
             <section>
                 <article>
                     <h1>${article.title}</h1>
