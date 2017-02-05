@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.ArticlesFacade;
-import session.UsersManager;
+import session.UserManager;
+
 
 /**
  *
@@ -28,7 +29,7 @@ public class web_controller extends HttpServlet {
     @EJB
     ArticlesFacade articlesFacade;
     @EJB
-    UsersManager userManager;
+    UserManager userManager;
 
     @Override
     public void init() throws ServletException {
@@ -70,19 +71,14 @@ public class web_controller extends HttpServlet {
             Enumeration<String> parameters = request.getParameterNames();
             while (parameters.hasMoreElements()) {
                 String parameter = parameters.nextElement();
-                switch (parameter) {
-                    case "login":
-                        login = request.getParameter(parameter);
-                        break;
-                    case "password":
-                        pass = request.getParameter("password");
-                        break;
-                    case "password2":
-                        pass2 = request.getParameter("password2");
-                        break;
-                    default:
-                        contacts.put(parameter, request.getParameterValues(parameter));
-                        break;
+                if(parameter.equals("login")){
+                    login = request.getParameter(parameter);
+                }else if(parameter.equals("password")){
+                    pass = request.getParameter("password");
+                }else if(parameter.equals("password2")){
+                    pass2 = request.getParameter("password");
+                }else{
+                    contacts.put(parameter, request.getParameterValues(parameter));
                 }
             }
             Integer codeOperation = userManager.addUser(login, pass, pass2, contacts);

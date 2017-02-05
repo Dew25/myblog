@@ -36,21 +36,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Contacts implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = false)// имя не должно быть null
+    @NotNull                // валидатор - проверяет на null
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
     @Column(name = "value")
     private String value;
+    
     @JoinColumn(name = "login", referencedColumnName = "login")
     @ManyToOne(optional = false)
     private Users login;

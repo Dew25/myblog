@@ -4,23 +4,13 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            1
         </session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
-        <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
     <jsp-config>
         <jsp-property-group>
@@ -33,16 +23,16 @@
         </jsp-property-group>
     </jsp-config>
     <security-constraint>
-        <display-name>Ограничение1</display-name>
+        <display-name>private_zone</display-name>
         <web-resource-collection>
-            <web-resource-name>private_zone</web-resource-name>
+            <web-resource-name>private articles</web-resource-name>
             <description/>
             <url-pattern>/private/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <description/>
+            <description>private</description>
             <role-name>private</role-name>
         </auth-constraint>
     </security-constraint>

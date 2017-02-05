@@ -35,14 +35,17 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Groupuser implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "name")
     private String name;
+    
     @ManyToMany(mappedBy = "groupuserCollection")
     private Collection<Articles> articlesCollection;
+    
     @JoinColumn(name = "users_login", referencedColumnName = "login")
     @ManyToOne(optional = false)
     private Users usersLogin;

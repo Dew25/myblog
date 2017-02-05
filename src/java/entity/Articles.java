@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -46,32 +47,41 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Articles implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "title")
     private String title;
+    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "text")
     private String text;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @JoinTable(name = "groupuser_has_articles", joinColumns = {
-        @JoinColumn(name = "articles_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "groupuser_name", referencedColumnName = "name")})
+    
+    @JoinTable(
+        name = "groupuser_has_articles", joinColumns = {
+            @JoinColumn(name = "articles_id", referencedColumnName = "id")}, 
+        inverseJoinColumns = {
+            @JoinColumn(name = "groupuser_name", referencedColumnName = "name")}
+    )
     @ManyToMany
     private Collection<Groupuser> groupuserCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articlesId")
     private Collection<Messages> messagesCollection;
 
@@ -82,8 +92,8 @@ public class Articles implements Serializable {
         this.id = id;
     }
 
-    public Articles(Integer id, String title, String text, Date date) {
-        this.id = id;
+    public Articles(String title, String text, Date date) {
+ 
         this.title = title;
         this.text = text;
         this.date = date;
@@ -145,23 +155,38 @@ public class Articles implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.title);
+        hash = 89 * hash + Objects.hashCode(this.date);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Articles)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Articles other = (Articles) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Articles other = (Articles) obj;
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
             return false;
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {

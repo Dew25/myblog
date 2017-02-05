@@ -37,24 +37,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Messages implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
+   
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "text")
     private String text;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+   
     @JoinColumn(name = "articles_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Articles articlesId;
+   
     @JoinColumn(name = "users_login", referencedColumnName = "login")
     @ManyToOne(optional = false)
     private Users usersLogin;

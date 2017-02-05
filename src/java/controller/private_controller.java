@@ -5,22 +5,29 @@
  */
 package controller;
 
+import entity.Articles;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Date;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import session.ArticlesFacade;
 
 /**
  *
  * @author jvm
  */
 @WebServlet(name = "private_controller", urlPatterns = {"/private"})
+@ServletSecurity( @HttpConstraint(rolesAllowed = {"private"}) )
 public class private_controller extends HttpServlet {
-
+    @EJB
+    ArticlesFacade articlesFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,16 +41,28 @@ public class private_controller extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         if ("/private".equals(request.getServletPath())) {
-            request.setAttribute("name", request.getUserPrincipal().getName());
-            request.getRequestDispatcher("WEB-INF/private/private_article.jsp").
-                    forward(request, response);
-        } else if ("/logout".equals(request.getServletPath())) {
-            HttpSession session = request.getSession(false);
+            String logout = request.getParameter("logout");
+            if(logout != null){
+                HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
             }
-            response.sendRedirect("/");
-        }
+            response.sendRedirect("/myblog");
+            
+            }else if(request.getParameter("title")!=null){
+                String title=request.getParameter("title");
+                String text=request.getParameter("text");
+                Articles article = new Articles(title, text, new Date());
+                articlesFacade.create(article);
+                request.setAttribute("articles", articlesFacade.findAll());
+                response.sendRedirect("/myblog");
+            }else{
+                
+                request.setAttribute("name", request.getUserPrincipal().getName());
+                request.getRequestDispatcher("WEB-INF/private/private_article.jsp").
+                    forward(request, response);
+            }
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

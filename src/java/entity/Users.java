@@ -38,19 +38,23 @@ public class Users implements Serializable {
     private Collection<Contacts> contactsCollection;
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
     @Column(name = "login")
     private String login;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "pass")
     private String pass;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usersLogin")
     private Collection<Groupuser> groupuserCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usersLogin")
     private Collection<Messages> messagesCollection;
 
